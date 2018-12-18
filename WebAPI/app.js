@@ -1,19 +1,24 @@
 ﻿// https://github.com/focusaurus/express_code_structure
 
-'use strict';
+// npm Imports
 var express = require('express');
+var debug = require('debug');
+
+// Local Imports
 var config = require('./config');
+var logging = require('./logging');
 
 var app = express();
 
+app.get('/', (req, res) => res.send('Hello World!'))
 
-log.info('Starting Drinks Diary API Server...')
+logging.log_info('Starting Drinks Diary API Server...')
 app.listen(config.express.port, config.express.ip, function (error) {
     if (error) {
-        log.error('Unable to listen for connections', error)
+        logging.log_error('Unable to listen for connections: ' + error)
         process.exit(10)
     }
-    log.info('express is listening on http://' +
+    logging.log_info('express is listening on http://' +
         config.express.ip + ':' + config.express.port)
 })
 
