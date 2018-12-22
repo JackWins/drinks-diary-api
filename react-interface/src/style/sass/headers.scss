@@ -1,0 +1,14 @@
+
+@mixin header($font_size) {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: $font_size;
+}
+
+h1 {
+    @include header(28pt);
+}
+
+h2 {
+    @include header(24pt);    
+}
