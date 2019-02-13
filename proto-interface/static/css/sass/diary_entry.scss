@@ -1,0 +1,18 @@
+
+
+#diary-entry-form {
+    width: 90%;
+    margin: auto;
+    margin-top: 5vh;
+}
+
+#diary-entry-form input,
+#diary-entry-form select
+ {
+    margin-bottom: 5vh;
+}
+
+#diary-entry-form .form-operations {
+    display: flex;
+    justify-content: space-between;
+}

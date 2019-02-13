@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+    My Diaries
+{% endblock %}
+
+
+{% block page_content %}
+
+    <div id="create_diary">
+        <a class="button button-sm"><i class="fas fa-plus"></i> Create diary</a>
+    </div>
+
+    <table id="existing_diaries">
+        
+        <tr class="entry_row">
+            <td class="entry">
+                <div class="entry_header">
+                    Created: 10/05/2011
+                </div>
+
+                <div class="entry_content">
+                    <h3>Study 1</h3>
+                    <div><span>Duration:</span> 3 Days</div>
+                    <div><span>Last Entry:</span> 12/05/2019 16:00</div>
+                    <div><span>Total Entries:</span> 10</div>
+                </div>
+
+                <div class="entry_footer">
+                    <a href="/diary" class="button button-xs"><i class="fas fa-search"></i> View Diary</a>
+
+                    <div class="activity_status">
+                        <p>Active</p> <span class="status status-success" ></span>
+                    </div>
+                </div>
+            </td>
+
+            <td class="entry">
+                <div class="entry_header">
+                    Created: 10/05/2011
+                </div>
+
+                <div class="entry_content">
+                    <h3>Study 1</h3>
+                    <div><span>Duration:</span> 3 Days</div>
+                    <div><span>Last Entry:</span> 12/05/2019 16:00</div>
+                    <div><span>Total Entries:</span> 10</div>
+                </div>
+
+                <div class="entry_footer">
+                    <a href="/diary" class="button button-xs"><i class="fas fa-search"></i> View Diary</a>
+
+                    <div class="activity_status">
+                        <p>Active</p> <span class="status status-success" ></span>
+                    </div>
+                </div>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+
+{% endblock %}

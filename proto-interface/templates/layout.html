@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Title here</title>
+
+        <link rel = "stylesheet" type = "text/css"
+        href = "{{ url_for('static', filename='css/style.css') }}" />
+
+        <!-- Font Awesome CDN import-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" 
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" 
+        crossorigin="anonymous">  
+
+
+        <!-- Import JQuery from CDN -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <!-- Import Bootstrap supporting JavaScript -->
+        <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    </head>
+
+    <body>
+
+        <div id="app-header">
+            <img class="header-logo" src="{{url_for('static', filename='images/beverage.svg')}}" />
+            
+            <a href="/diary" class="header-user-account">
+                <img src="../static/images/default_profile.png">
+
+                <div class="user-info">
+                    <div id="fullname">Welcome User</div>
+                    <div id="my-account"><i class="fas fa-cog"></i> My Account</div>
+                </div>
+            </a>
+
+        </div>
+
+        <div id="app-main">
+
+            <div id="app-desktop-nav">
+                <a class="button button-box">
+                    <i class="fas fa-long-arrow-alt-left"></i>
+                    <label>Back</label>
+                </a>
+
+                {% block desktop_nav %}{% endblock %}
+            </div>
+
+            <div id="app-main-body">
+
+                <div id="app-account-info">
+                    <img src="../static/images/default_profile.png" />
+                    <h2>Welcome User</h2>
+                    <button class="button button-failed">Log out</button>
+                </div>
+    
+                <div id="app-utility">
+                    <div class="back">
+                        <a class="button button-sm"><i class="fas fa-long-arrow-alt-left"></i></a>
+                    </div>
+                    <div class="accessability">
+                        <button class="button button-sm"><i class="fas fa-question"></i></button>
+                        <button class="button button-sm"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                </div>
+    
+                <div id="app-page-title">
+                    <h1>{% block page_title %} {% endblock %}</h1>
+                </div>
+
+                <div id="app-page-content">
+                    {% block page_content %}{% endblock %}
+                </div>
+            </div>
+
+        </div>
+ 
+    </body>
+</html>

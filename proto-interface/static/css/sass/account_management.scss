@@ -1,0 +1,48 @@
+
+.account-overview {
+    margin: 5vh 3vw 5vh 3vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.account-overview img {
+    margin-right: 10vw;
+    border-radius: 50%;
+    height: 30vw;
+    width: 30vw;
+}
+
+.account-overview h3 {
+    margin-top: 3vh;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-content {
+    padding: 0 3vw 0 3vw;
+}
+
+.account-about ul {
+    padding: 0px;
+    list-style: none;
+}
+
+.account-about ul li span.info-title {
+    font-weight: bold;
+    display: inline-block;
+    width: 20vw;
+}
+
+.account-about table td{
+    padding: 0 2vw 1vw 2vw
+}
+
+.account-about table .setting-title{
+    font-weight: bold;
+}

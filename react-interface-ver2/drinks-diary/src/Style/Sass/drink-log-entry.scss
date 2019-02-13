@@ -1,0 +1,85 @@
+
+.drink-log-entry {
+    width: 175px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    padding: 8px;
+    margin: 10px auto 0 auto;
+
+    color: white;
+    background-color: $theme-color;
+}
+
+.drink-log-entry .entry-main, .drink-log-entry .entry-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.drink-log-entry .entry-main .entry-thumbnail {
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.drink-log-entry:hover .drink-log-entry-expand {
+    visibility: visible;
+}
+
+.drink-log-entry-expand {
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 150px;
+    padding: 5px 15px;
+
+    visibility: hidden;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+
+    color: white;
+    background-color: $theme-color;
+}
+
+.drink-log-entry-expand .entry-main {
+    display: flex;
+    align-items: center;
+    min-height: 100px;
+    margin: 0px 10px;
+}
+
+.drink-log-entry-expand .entry-main .entry-thumbnail {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.drink-log-entry-expand .entry-main .entry-info {
+    width: 200px;
+    padding: 15px 30px;
+}
+
+.drink-log-entry-expand .entry-main .entry-content-indicators i {
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.drink-log-entry-expand .entry-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 75px;
+    margin-left: 10px;
+}
+
+
+
+

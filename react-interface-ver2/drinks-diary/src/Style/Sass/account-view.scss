@@ -1,0 +1,94 @@
+
+#account-view {
+    display: flex;
+    padding: 0px 100px;
+}
+
+#account-view .account-col-1 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 60px;
+}
+
+#account-view .account-col-1 h2 {
+    margin-top: 5px;
+}
+
+#account-view .account-col-1 .profile-picture {
+    width: 200px;
+    height: 200px;
+    margin-top: 30px;
+    position: relative;
+}
+
+#account-view .account-col-1 .profile-picture img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 50%;
+}
+
+#account-view .account-col-1 .profile-picture .profile-picture-edit {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    font-size: 2em;
+    color: white;
+
+    opacity: 0;
+    transition: .5s ease;
+    border-radius: 0 0 100px 100px;
+    background-color: $theme-color;
+}
+
+#account-view .account-col-1 .profile-picture:hover {
+    cursor: pointer;
+    opacity: 0.8
+}
+
+#account-view .account-col-1 .profile-picture:hover .profile-picture-edit {
+    opacity: 0.8;
+}
+
+#account-view .account-col-2 {
+    width: 100%;
+}
+
+#account-view .account-section {
+    width: 100%;
+    padding: 0 100px;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+}
+
+#account-view .account-section .section-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $theme-color;
+}
+
+#account-view .account-section .section-header .section-title {
+    margin: 0;
+    opacity: 0.8;
+}
+
+#account-view .account-section .section-info-entry .type {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#account-view .account-section .section-info-entry .value {
+    display: inline-block;
+    font-weight: bold;
+}

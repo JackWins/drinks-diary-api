@@ -1,0 +1,157 @@
+
+#diary_management_options {
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: $xs) { 
+        display: flex;
+        justify-content: space-between;
+        padding: 5vw 10vw 3vw 10vw;
+    } 
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: $sm) { 
+        display: none;
+    } 
+}
+
+
+#diary-view { 
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: $xs) { 
+        width: 100%;
+        margin: 5vh 0 0 0;
+    } 
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: $sm) { 
+        width: 100%;
+    } 
+}
+
+#diary-view tr.diary-entry-mobile {
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: $xs) { 
+        width: 100%;
+        display: block;
+    } 
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: $sm) { 
+        display: none;
+    }
+}
+
+
+/* Mobile diary entry styling */
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: $xs) { 
+
+    #diary-view tr.diary-entry-mobile:nth-child(even) { 
+        background-color: rgb(236, 255, 255)
+    }
+
+    #diary-view tr.diary-entry-desktop { display: none; }
+
+    #diary-view tr.diary-entry-mobile td{
+        width: 100%;
+        display:block;
+        border-top: 1px solid lightgray;
+        border-bottom: 1px solid lightgray;
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-content {
+        display: flex;
+        align-content: flex-start;
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-content .entry-thumbnail { 
+        width: 15%;
+        padding: 2vw 0 0 2vw; 
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-content .entry-thumbnail img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: grey;
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-content .entry-info h5 { margin: 0; }
+    #diary-view tr.diary-entry-mobile .entry-content .entry-info { 
+        width: 72%;
+        padding: 2vw 3vw 2vw 4vw; 
+    }
+
+    
+    #diary-view tr.diary-entry-mobile .entry-content .entry-key i { 
+        display: block; 
+        margin-top: 2vw;
+        margin-bottom: 2vw;
+        font-size: 1.25em;
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-footer {
+        display: flex;
+        align-content: flex-start;
+        justify-content: space-between;
+        padding-left: 20px;
+    }
+
+    #diary-view tr.diary-entry-mobile .entry-footer .entry-creation-date {
+        font-weight: 300;
+        padding-top: 20px;
+    }
+}
+
+
+/* Desktop diary entry styling */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: $sm) { 
+
+    #diary-view tr.diary-entry-mobile { display: none; }
+
+    #diary-view tr.diary-entry-desktop {
+        width: 100%;
+        display: block;
+        border-top: 1px solid lightgrey;
+    }
+
+    #diary-view tr.diary-entry-desktop td {
+        width: 100%;
+        display: flex;
+        align-content: flex-start;
+        align-items: center;
+        margin: 15px 0px;
+    }
+
+    #diary-view tr.diary-entry-desktop td .entry-date { width: 125px; }
+
+    #diary-view tr.diary-entry-desktop td .entry-thumbnail { flex-grow: 0.3; }
+    #diary-view tr.diary-entry-desktop td .entry-thumbnail img {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        background-color: grey;
+        border-radius: 50%;
+    }
+
+    #diary-view tr.diary-entry-desktop td .entry-info .info { width: 75%; }
+    #diary-view tr.diary-entry-desktop td .entry-info {
+        flex-grow: 5;
+        display: flex;
+        margin: 10px 10px;
+    }
+    
+    #diary-view tr.diary-entry-desktop td .entry-info .key { margin: 25px 0; }
+    #diary-view tr.diary-entry-desktop td .entry-info .key i {
+        display: block;
+        font-size: 1.5em;
+        margin-bottom: 5px;
+    }
+
+    #diary-view tr.diary-entry-desktop td .entry-action {
+        flex-grow: 0.3;
+    }
+}

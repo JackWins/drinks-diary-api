@@ -1,0 +1,22 @@
+
+/* Responsive width variables for media queries*/
+$xs: 600px;
+$sm: 600px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: $xs) {} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: $sm) {} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: $md) {} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: $lg) {} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: $xl) {}
