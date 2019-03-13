@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import DefaultDrinkImage from '../Images/default_drink.svg'
-import '../Style/style.css'
 
 
 class DrinkLogEntry extends Component {

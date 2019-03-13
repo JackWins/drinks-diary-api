@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import LogView from './log-view'
-import '../Style/style.css'
 
 
 class DiaryView extends Component {

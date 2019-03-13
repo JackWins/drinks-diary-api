@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../Images/beverage.svg'
 import profile from '../Images/default_profile.png'
-import '../Style/style.css'
 
 
 class Header extends Component {

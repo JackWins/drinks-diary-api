@@ -4,8 +4,8 @@
     display: flex;
 }
 
-.status h1, .status h2, .status h3, .status h4, .status h5 {
-    margin-left: 10px;
+.status h1, .status h2, .status h3, .status h4, .status h5, .status label {
+    margin: 0 10px !important;
 }
 
 .status .status-indicator {

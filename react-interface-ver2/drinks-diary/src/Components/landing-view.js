@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import logo from '../Images/beverage.svg'
-import '../Style/style.css'
 
 
 class LandingView extends Component {

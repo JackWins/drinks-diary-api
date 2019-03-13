@@ -1,0 +1,589 @@
+/* import mixins */
+.button {
+  width: auto;
+  display: inline-block;
+  box-sizing: content-box;
+  color: #1e83c7;
+  background-color: white;
+  text-align: center;
+  text-decoration: none;
+  border-style: solid;
+  border-color: #1e83c7;
+  border-width: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Extra small devices (phones, 600px and down) */
+  /* Large devices (laptops/desktops, 992px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button {
+    padding: 0.5vh 2vh 0.5vh 2vh;
+    height: 7vh;
+    font-size: 1.3em;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button {
+    padding: 10px 15px 10px 15px;
+    height: 30px;
+    font-size: 1.3em;
+  }
+}
+
+.button:hover {
+  color: white;
+  background-color: #1e83c7;
+  transition: background-color 100ms linear;
+}
+
+.button.button-inverse {
+  color: white;
+  background-color: #1e83c7;
+  border-color: white;
+}
+
+.button.button-inverse:hover {
+  color: #1e83c7;
+  background-color: white;
+  transition: background-color 200ms linear;
+}
+
+.button.button-xs {
+  /* Extra small devices (phones, 600px and down) */
+  /* Large devices (laptops/desktops, 992px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-xs {
+    height: 5.5vh;
+    font-size: 1em;
+    padding: 0vw 0.5vw;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-xs {
+    height: 15px;
+    font-size: 1em;
+    padding: 7px 5px;
+  }
+}
+
+.button.button-sm {
+  /* Extra small devices (phones, 600px and down) */
+  /* Large devices (laptops/desktops, 992px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-sm {
+    height: 7vh;
+    font-size: 1.3em;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-sm {
+    height: 30px;
+    font-size: 1.3em;
+    padding: 9px 7px;
+  }
+}
+
+.button.button-lg {
+  /* Extra small devices (phones, 600px and down) */
+  /* Large devices (laptops/desktops, 992px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-lg {
+    height: 8.5vh !important;
+    font-size: 1.75em !important;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-lg {
+    height: 75px;
+    font-size: 2em;
+  }
+}
+
+.button.button-success {
+  color: white;
+  background-color: #02a842;
+  border: none;
+}
+
+.button.button-warning {
+  color: white;
+  background-color: #d8a600;
+  border: none;
+}
+
+.button.button-danger {
+  color: white;
+  background-color: #ee4b4b;
+  border: none;
+}
+
+.button.button-success:hover, .button.button-warning:hover, .button.button-danger:hover {
+  opacity: 0.8;
+}
+
+.button.button-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  /* Extra small devices (phones, 600px and down) */
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-box {
+    width: 15vw;
+    height: 15vw;
+    padding: 2vw 2vw;
+    border-radius: 1vw;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-box {
+    height: 100px;
+    width: 100px;
+    padding: 25px;
+    border-radius: 5px;
+  }
+}
+
+.button.button-box i {
+  display: block;
+  /* Extra small devices (phones, 600px and down) */
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-box i {
+    font-size: 1.25em;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-box i {
+    font-size: 2em;
+  }
+}
+
+.button.button-box label {
+  margin: 0px;
+  display: block;
+  line-height: 25px;
+  /* Extra small devices (phones, 600px and down) */
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+}
+@media only screen and (max-width: 600px) {
+  .button.button-box label {
+    font-size: 0.85em;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .button.button-box label {
+    font-size: 1em;
+  }
+}
+
+.status {
+  display: flex;
+}
+
+.status h1, .status h2, .status h3, .status h4, .status h5, .status label {
+  margin: 0 10px !important;
+}
+
+.status .status-indicator {
+  width: 25px;
+  height: 25px;
+  display: block;
+  border-radius: 50%;
+  background-color: #1e83c7;
+}
+
+.status .status-indicator.success {
+  background-color: #02a842;
+}
+
+.status .status-indicator.warning {
+  background-color: #d8a600;
+}
+
+.status .status-indicator.danger {
+  background-color: #ee4b4b;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-color: rgba(30, 131, 199, 0.2);
+}
+
+#root {
+  min-height: 100%;
+  background-color: white;
+}
+
+form {
+  width: 100%;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  height: 45px;
+  margin: 10px 0px;
+  padding: 5px 5px;
+  font-size: 16pt;
+  border-width: 1pt;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #1e83c7;
+  box-sizing: border-box;
+}
+
+select.form-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAh0lEQVQ4T93TMQrCUAzG8V9x8QziiYSuXdzFC7h4AcELOPQAdXYovZCHEATlgQV5GFTe1ozJlz/kS1IpjKqw3wQBVyy++JI0y1GTe7DCBbMAckeNIQKk/BanALBB+16LtnDELoMcsM/BESDlz2heDR3WePwKSLo5eoxz3z6NNcFD+vu3ij14Aqz/DxGbKB7CAAAAAElFTkSuQmCC");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) center;
+}
+
+.form-input:focus {
+  border-color: #1e83c7;
+}
+
+@media only screen and (max-width: 600px) {
+  .input-row {
+    display: block;
+    margin: 7vh 0;
+  }
+  .input-row .input-group {
+    width: 100%;
+    margin: 3vh 0;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .input-row {
+    width: 100%;
+    display: flex;
+  }
+  .input-row .input-group:first-child:nth-last-child(2),
+.input-row .input-group:first-child:nth-last-child(2) ~ .input-group {
+    width: 50%;
+  }
+  .input-row > * {
+    margin-right: 10px;
+  }
+}
+
+.input-group {
+  margin-bottom: 25px;
+}
+
+.input-group input {
+  display: block;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+}
+
+.volume-selector .volume-selector-input {
+  display: flex;
+  margin: 10px 0;
+  border: 1px solid #1e83c7;
+  border-radius: 5px;
+}
+.volume-selector .volume-selector-input .form-input {
+  margin: 0;
+  border: none;
+  border-radius: inherit;
+}
+.volume-selector .volume-selector-input input.form-input {
+  width: 40%;
+}
+.volume-selector .volume-selector-input select.form-input {
+  border-left: 1px solid #1e83c7;
+  width: 60%;
+}
+
+#mobile-main {
+  font-size: 4vw;
+  font-family: "Nunito", "sans-serif";
+}
+#mobile-main #mobile-layout .page-main {
+  padding: 2vw;
+  box-sizing: border-box;
+}
+#mobile-main h1 {
+  margin: 4vw 0;
+  font-size: 2.5em;
+}
+#mobile-main h2 {
+  margin: 2vw 0;
+  font-size: 2.25em;
+}
+#mobile-main h3 {
+  margin: 2vw 0;
+  font-size: 2em;
+}
+#mobile-main h4 {
+  margin: 0;
+  font-size: 1.5em;
+}
+#mobile-main h5 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 100;
+}
+#mobile-main label {
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+#mobile-main p {
+  margin: 0;
+  font-size: 1.25em;
+}
+#mobile-main #page-header {
+  height: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vh;
+  background-color: #1e83c7;
+}
+#mobile-main #page-header .header-logo {
+  width: auto;
+  height: 100%;
+}
+#mobile-main #page-utils {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 3vw;
+}
+#mobile-main #page-utils .button {
+  margin: 0 1vw;
+}
+#mobile-main #index {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+#mobile-main #index #index-nav {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+#mobile-main #index #index-nav tr:nth-child(odd) {
+  border-bottom: 1px solid #1e83c7;
+}
+#mobile-main #index #index-nav td:nth-child(odd) {
+  border-right: 1px solid #1e83c7;
+}
+#mobile-main #index #index-nav tr:nth-last-child(1) {
+  border: none;
+}
+#mobile-main #index #index-nav td a {
+  width: 35vw;
+  height: 35vw;
+  padding: 5vw 5vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: #1e83c7;
+  text-decoration: none;
+  box-sizing: content-box;
+}
+#mobile-main #index #index-nav td a i {
+  display: block;
+  font-size: 3em;
+  margin-bottom: 2vw;
+}
+#mobile-main #index #index-nav td a:active {
+  color: white;
+  background-color: #1e83c7;
+}
+#mobile-main #index #index-nav td a.log-out {
+  color: #ee4b4b;
+}
+#mobile-main #index #index-nav td a.log-out:active {
+  color: white;
+  background-color: #ee4b4b;
+}
+#mobile-main #diaries-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
+}
+#mobile-main #diaries-view .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+#mobile-main #diaries-view table {
+  width: 100%;
+  min-height: 20vh;
+  background-color: rgba(30, 131, 199, 0.2);
+  table-layout: fixed;
+}
+#mobile-main #diaries-view table tr {
+  display: block;
+  margin: 0.5vh 0;
+}
+#mobile-main #diaries-view table tr.entry td {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2vw 1vw;
+  box-sizing: border-box;
+  background-color: white;
+  border-top: 1px solid #1e83c7;
+  border-bottom: 1px solid #1e83c7;
+}
+#mobile-main #diaries-view table tr.entry td .entry-info {
+  display: flex;
+  flex-direction: column;
+}
+#mobile-main #diaries-view table tr.entry td .entry-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 2vh;
+}
+#mobile-main #diaries-view table tr.create-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 0;
+  text-align: center;
+}
+#mobile-main #diaries-view table tr.create-entry a {
+  color: #1e83c7;
+  text-decoration: none;
+}
+#mobile-main #diaries-view table tr.create-entry i {
+  display: block;
+}
+#mobile-main #diary-overview {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
+}
+#mobile-main #diary-overview .date-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vh;
+}
+#mobile-main #diary-overview .date-log-header {
+  padding: 0.5vh 0vh;
+  border-top: 1px solid #1e83c7;
+  border-bottom: 1px solid #1e83c7;
+}
+#mobile-main #diary-overview .date-log-header .date-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#mobile-main #diary-overview .date-log-header .key {
+  display: flex;
+  margin-top: 2vw;
+}
+#mobile-main #diary-overview .date-log-header .key label {
+  margin-right: 2vw;
+}
+#mobile-main #diary-overview .date-log {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  overflow-y: auto;
+  background-color: rgba(30, 131, 199, 0.2);
+}
+#mobile-main #diary-overview .date-log-create {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2vh 0;
+  box-sizing: content-box;
+  color: #1e83c7;
+  text-decoration: none;
+}
+#mobile-main #diary-overview .date-log-create i {
+  display: block;
+  font-size: 2em;
+}
+#mobile-main #diary-overview .diary-entry {
+  width: 87vw;
+  padding: 3vw;
+  margin: 2vw auto;
+  border-radius: 0.5vw;
+  border: 1px solid #1e83c7;
+  background-color: white;
+}
+#mobile-main #diary-overview .diary-entry .entry-main {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 5vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-main img {
+  width: 20vw;
+  height: 20vw;
+  display: block;
+  border-radius: 50%;
+  background-color: #1e83c7;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info {
+  margin-left: 5vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info .drink-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info .drink-info i {
+  font-size: 1.25em;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info .drink-info .alcohol-status {
+  margin-left: 10vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info .drink-info .caffeine-status {
+  margin-left: 2vw;
+  margin-top: 0.75vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-main .entry-info .drink-info .contains {
+  margin-left: 5vw;
+  margin-top: 1vw;
+}
+#mobile-main #diary-overview .diary-entry .entry-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 3vw;
+}
+#mobile-main #create-diary-entry {
+  margin-bottom: 5vh;
+}
+
+/*# sourceMappingURL=mobile-style.css.map */

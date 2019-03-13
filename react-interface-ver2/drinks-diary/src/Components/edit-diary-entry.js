@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import '../Style/style.css'
 
 
 class EditDiaryEntry extends Component {

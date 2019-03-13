@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import '../Style/style.css'
-
 import DrinkLogEntry from './drink-log-entry'
 
 

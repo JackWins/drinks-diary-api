@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import default_pic from '../Images/default_profile.png'
-import '../Style/style.css'
 
 
 class AccountView extends Component {

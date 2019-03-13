@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../Style/style.css'
 
 
 class PageHeader extends Component {

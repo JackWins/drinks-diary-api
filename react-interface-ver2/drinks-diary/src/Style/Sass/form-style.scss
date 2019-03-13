@@ -38,16 +38,31 @@ select.form-input {
 
 
 .input-row {
-    width: 100%;
-    display: flex;
-}
 
-.input-row > * {
-    margin-right: 10px;
-}
+    @media only screen and (max-width: $xs) {
+        display: block;
+        margin: 7vh 0;
 
-.input-row .input-group:first-child:nth-last-child(2), .input-group:first-child:nth-last-child(2) ~ .input-group {
-    width: 50%;
+        .input-group {
+            width: 100%;
+            margin: 3vh 0;
+        }
+    } 
+
+
+    @media only screen and (min-width: $sm) {
+        width: 100%;
+        display: flex;
+
+        .input-group:first-child:nth-last-child(2), 
+        .input-group:first-child:nth-last-child(2) ~ .input-group {
+            width: 50%;
+        }
+
+        > * {
+            margin-right: 10px;
+        }
+    }
 }
 
 
@@ -70,3 +85,6 @@ select.form-input {
     justify-content: space-between;
     padding: 0px 20px;
 }
+
+
+@import 'form-components/volume-selector'

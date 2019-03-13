@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Header from './header'
-import '../Style/style.css'
+
 
 class DesktopLayout extends Component {
 

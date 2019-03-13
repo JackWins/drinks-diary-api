@@ -1,18 +1,27 @@
 {
-  "name": "web-api",
+  "name": "drinks-diary-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "nodemon --exec \"node -r dotenv/config\" server.js"
   },
-  "description": "WebAPI",
+  "description": "RESTful API providing functionality for Drinks Diary Applications",
   "author": {
     "name": "Jack Pickett"
   },
   "dependencies": {
-    "debug": "^4.1.0",
+    "app-root-path": "^2.1.0",
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.0",
+    "morgan": "^1.9.1",
     "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10",
+    "debug": "^4.1.1"
   }
 }

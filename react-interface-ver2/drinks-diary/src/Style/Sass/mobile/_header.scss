@@ -1,0 +1,16 @@
+
+#page-header {
+    height: 12vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 2vh;
+    background-color: $theme-color;
+}
+
+#page-header .header-logo {
+    width:auto;
+    height: 100%;
+}
+

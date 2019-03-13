@@ -1,0 +1,25 @@
+
+/* import mixins */
+@import 'style-variables';
+@import 'buttons';
+@import 'status-indicator';
+@import 'base-style';
+@import 'form-style';
+
+#mobile-main {
+    font-size: 4vw;
+    font-family: 'Nunito', 'sans-serif';
+
+    #mobile-layout .page-main {
+        padding: 2vw;
+        box-sizing: border-box;
+    }
+
+    @import './mobile/fonts';
+    @import './mobile/header';
+    @import './mobile/utility';
+    @import './mobile/index';
+    @import './mobile/diaries-view';
+    @import './mobile/diary-overview';
+    @import './mobile/create-diary-entry';
+}
