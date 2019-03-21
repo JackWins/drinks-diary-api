@@ -3,6 +3,7 @@
  * @author jack.pickett@uea.ac.uk (Jack Pickett)
  */
 
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 const usersSchema = require('./schema');
 const dbm = require('../../database-manager');
@@ -23,31 +24,82 @@ var UsersModel = dbm.getDbConnection().model('User', usersSchema);
  *          gender: string,
  *          dob: date
  *      }
- * @returns {Promise} a promise containing error on failure or new user document on success
+ * @returns {Promise} a promise resolving with the inserted document
  */
-exports.createUser = function (newUser) {
-
+exports.createUser = (newUser) => {
     // Create new document instance using the passed arguments
     var newUser = new UsersModel(newUser);
+    // Run validation before encrypting password
+    var isValid = newUser.validateSync()
+    // Check if a mongoose Validation Error was returned
+    if (isValid) { throw isValid }
 
-    // Store the new user document in the database
-    return new Promise(function (resolve, reject) {
-        newUser.save((error, user) => {
-            if (error)
-                reject(error);
+    // Encrypt and append password to new user model
+    newUser.password = bcrypt.hashSync(newUser.password, 12);
 
-            // Encrypt password with bcrypt for secure storage and update doc
-            user.password = bcrypt.hashSync(user.password, 12);
-            user.save(options = { validateBeforeSave: false }, error => {
-                if (error) {
-                    reject(error);
+    // Store the new user document in the database, 
+    // disable validation as password will fail
+    return newUser.save({ validateBeforeSave: false })
+};
+
+
+/**
+ * Verify the username password combination provided is valid
+ * @param {string} email email value of the target user doucment
+ * @param {string} password password to check validity against the matching user docuemnt
+ * @param {function} callback is a function for further processing of the result
+ * @return {promise | undefined} promise when callback is undefined otherwise returned undefined
+ */
+exports.verifyCredentials = function (email, password) {
+    // Get the user document matching the provided email address
+    return new Promise(resolve => { 
+        UsersModel.findOne({ email: email }).select('_id email password role').exec()
+            .then(userDoc => {
+                if (userDoc) {
+                    // Check passwords
+                    bcrypt.compare(password, userDoc.password)
+                        .then(checkResult => {
+                            resolve({check: checkResult, user: userDoc})
+                        })
                 } else {
-                    resolve(user)
+                    resolve({ check: false, user: userDoc })
                 }
             })
+    })
+}
+
+
+
+/**
+ * Update the user with the provided id with the given role
+ * @param {String} userId the _id of the user to update
+ * @param {String} role the value of the new role
+ * @returns {Promise} a promise which resolves to a json with the format: 
+ *      {
+ *          error: true on error false on success,
+ *          result: updated document on success (when error == false),
+ *          exception: Error instance (when error == true)
+ *      }
+ */
+exports.setRole = (userId, role) => {
+    return UsersModel.findOneAndUpdate({ '_id': userId }, { 'role': role }).exec()
+        .then(updatedDoc => {
+            if (updatedDoc) {
+                return {
+                    error: false,
+                    result: updatedDoc
+                }
+            } else {
+                throw new Error("User with the given ID does not exist.")
+            }
         })
-    });
-};
+        .catch(error => {
+            return {
+                error: true,
+                exception: error
+            }
+        })
+}
 
 
 /**
@@ -55,11 +107,10 @@ exports.createUser = function (newUser) {
  * @param {JSON} filter Contains arguments to be used as database filter.
  * @param {function} callback is a function for further processing the query result.
  */
-exports.getUsers = function (filter = {}, callback) {
-    UsersModel.find(filter)
-        // Filter fields to be returned in results
+exports.getUsers = (filter) => {
+    return UsersModel.find(filter)
         .select('-__v -password')
-        .exec(callback);
+        .exec();
 }
 
 
@@ -82,55 +133,4 @@ exports.removeUser = function (objectId) {
 }
 
 
-/**
- * Verify the username password combination provided is valid
- * @param {string} email email value of the target user doucment
- * @param {string} password password to check validity against the matching user docuemnt
- * @param {function} callback is a function for further processing of the result
- * @return {promise | undefined} promise when callback is undefined otherwise returned undefined
- */
-exports.verifyCredentials = function (email, password, callback) {
-    // Return promise
-    if (callback === undefined) {
-        var queryPromise = UsersModel.findOne({ email: email }).select('_id email password').exec()
-        return new Promise((resolve, reject) => {
-            queryPromise.then(
-                // Resolve
-                result => {
-                    if (!result) {
-                        resolve({ check: false })
-                    }
-                    bcrypt.compare(password, result.password).then((checkResult) => {
-                        resolve({
-                            check: checkResult,
-                            userDoc: result
-                        });
-                    })
-                },
-                // Reject
-                error => {
-                    reject(error)
-                }
-            )
-        })
-    }
-    // Use provided callback
-    else {
-        var queryPromise = UsersModel.findOne({ email: email }).select('_id email password').exec(
-            // Resolve
-            (result) => {
-                if (!result) {
-                    callback(error, false, result)
-                    return
-                }
-                bcrypt.compare(password, result.password).then((checkResult) => {
-                    callback(error, checkResult, result)
-                })
-            },
-            //Reject
-            (error) => {
-                callback(error, null)
-            }
-        )
-    }
-}
+

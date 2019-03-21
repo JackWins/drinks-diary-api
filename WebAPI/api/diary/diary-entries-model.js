@@ -3,6 +3,7 @@
  * @author jack.pickett@uea.ac.uk (Jack Pickett)
  */
 
+const NoResultException = require('../../exceptions/no-result-exception');
 const diaryEntrysSchema = require('./diary-entries-schema');
 const DiarysModel = require('./diaries-model');
 const dbm = require('../../database-manager');
@@ -16,7 +17,6 @@ var DiaryEntryModel = dbm.getDbConnection().model('Diary-Entry', diaryEntrysSche
  * @param {JSON} args are the arguments required to create a new entry,
  *      the structure should be the following: 
  *      {
- *          diaryID: string,
  *          drinkType: string,
  *          volume: JSON: {
  *              amount: number,
@@ -28,29 +28,15 @@ var DiaryEntryModel = dbm.getDbConnection().model('Diary-Entry', diaryEntrysSche
  * @returns {Promise} the result of the save operation containing the 
  *      new document or an error to catch.
  */
-exports.createEntry = (args) => {
-    return new Promise((resolve, reject) => {
-        // Check that a diary with the provided ID exists
-        DiarysModel.getDiarys(filter = { _id: args.diaryID })
-            .then(results => {
-                if (results.length > 0) {
-                    // Create and save the new diary entry document
-                    DiaryEntryModel(args).save()
-                        .then(entryDoc => {
-                            resolve(entryDoc)
-                        })
-                        .catch(error => {
-                            reject(error)
-                        })
-                }
-                else {
-                    reject(new Error("No existing diary with the given ID"))
-                }
-            })
-            .catch(error => {
-                reject(error);
-            })
-    })
+exports.createEntry = async (userId, diaryId, args) => {
+    // Use filter to search for diaries matching a provided user ID
+    const results = await DiarysModel.getDiarys({ _id: diaryId, userID: userId })
+    if (results < 1) {
+        throw new NoResultException("No diaries matching the provided diary ID to create entry for")
+    }
+
+    // Create diary entry document
+    return DiaryEntryModel({...args, diaryID: diaryId}).save()
 }
 
 
@@ -72,9 +58,36 @@ exports.getDiaryEntries = (filter = {}) => {
  * @param {JSON} args is the arguments to change for the specified entry
  * @returns {Promoise} is the promise result of the update query execution
  */
-exports.updateDiaryEntry = (entryID, args) => {
-    return DiaryEntryModel.findOneAndUpdate(args, { _id: entryID }, { runValidators: true, rawResult: true })
-        .exec()
+exports.updateEntry = (userId, diaryId, entryID, args) => {
+    // Use filter to search for diaries matching a provided user ID
+    return new Promise((resolve, reject) => {
+        DiarysModel.getDiarys({ _id: diaryId, userID: userId })
+            .then(results => {
+                if (results) {
+                    DiaryEntryModel.findById(entryID)
+                        .then(entry => {
+                            const keys = Object.keys(args)
+                            keys.forEach(key => {
+                                if (key === "volume") {
+                                    const volumeKeys = Object.keys(args[key])
+                                    volumeKeys.forEach(volKey => { entry[key][volKey] = args[key][volKey] })
+                                } else {
+                                    entry[key] = args[key]
+                                }
+                            })
+                            entry.save()
+                                .then(updatedDoc => { resolve(updatedDoc) })
+                                .catch(error => { reject(error) })
+                        })
+                        .catch(error => { reject(error) })
+                }
+                else {
+                    throw new NoResultException("No diaries matching the provided diary ID to create entry for")
+                }
+            })
+            .catch(error => { reject(error) })
+    })
+
 }
 
 

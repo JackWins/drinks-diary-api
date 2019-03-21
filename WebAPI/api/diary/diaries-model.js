@@ -3,7 +3,9 @@
  * @author jack.pickett@uea.ac.uk (Jack Pickett)
  */
 
+// Library imports
 const diariesSchema = require('./diaries-schema');
+// Local imports
 const dbm = require('../../database-manager');
 
 // Define Model for creating document instances
@@ -16,23 +18,34 @@ exports.model = DiarysModel
  * @param {any} userID is the ObjectId of the user document associated with the new diary.
  * @param {any} diaryName is the identifying name for the new diary.
  * @param {any} duration is the duration for which the diary is expected to last.
+ * @return {Promise} a promise which resolves to the stored diary document
  */
 exports.createDiary = (userID, diaryName, duration) => {
+    // Initialise new diary model
+    var newDiary = new DiarysModel({userID: userID, diaryName: diaryName,})
 
-    var newDiary = new DiarysModel({
-        userID: userID,
-        diaryName: diaryName,
+    // Set duration and endDate
+    var endDate = new Date()
+    newDiary.endDate = endDate.setDate(endDate.getDate() + duration)
+    newDiary.duration = duration
+    
+    return new Promise((resolve, reject) => {
+        var count = 0;
+        newDiary.save()
+            .then(diaryEntry => {
+                resolve(diaryEntry)
+            })  
+            .catch(error => {
+                return reject(error)
+            })
     })
-
-    // Set duration and endDate if there is a duration provided
-    if (duration !== undefined) {
-        currentDate = new Date()
-        newDiary.duration = duration
-        newDiary.endDate = currentDate.addDays(duration)
-    }
-
-    return newDiary.save()
 }
+
+exports.createDiaryFromTemplate = (diaryTemplateId) => {
+    var test = "test"
+    // TODO: complete
+}
+
 
 /**
  * Find diary documents mathcing the given filter if specified

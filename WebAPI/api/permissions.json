@@ -1,0 +1,31 @@
+
+{
+	"permissions": [
+		{
+			"permission" : "canCreateDiary",
+			"description" : "Determines if the user can create, read, update and delete a diary bound to their account including entries."
+		},
+		{
+			"permission" : "canViewUserDiary",
+			"description" : "Determines if the user can view another users diary"
+		},
+		{
+			"permission" : "canUpdateUserDiary",
+			"description" : "Determines if the user can edit another users diary configuration including entries"
+		},
+		{
+			"permission" : "canDeleteUserDiary",
+			"description" : "Detrmines if the user can delete another users diary configuration including entries"
+		},
+		{
+			"permission" : "canViewUserAccount",
+			"description" : "Determines if the user can view another users account page"
+		}
+	],
+	"roles" : [
+		{
+			"role" : "participant",
+			"permissions": ["canCreateDiary", "canUpdateUserDiary"]
+		}
+	]
+}

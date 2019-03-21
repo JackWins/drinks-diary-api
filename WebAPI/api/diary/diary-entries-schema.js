@@ -30,6 +30,10 @@ var diaryEntrySchema = new mongoose.Schema(
         caffeinated: {
             type: Boolean,
             default: false
+        },
+        date: {
+            type: mongoose.Schema.Types.Date,
+            default: new Date()
         }
     },
     options = {

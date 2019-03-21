@@ -5,114 +5,157 @@
 
 const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const jsonParser = require('body-parser').json();
+
 const usersModel = require('./users-model');
+const permissionsModel = require('../permissions/model')
+
+const jsonParser = require('body-parser').json();
 const authCheck = require('../middleware/checkAuth');
+const asyncHandler = require('../middleware/async-handler')
+const BodyValidator = require('../helpers/validate-request-body')
+
+const PermissionException = require('../../exceptions/permission-exception')
+const FailedAuthException = require('../../exceptions/failed-auth-exception')
 
 
-router.get('/', authCheck, function (req, res, next) {
-    results = usersModel.getUsers(filter = {}, function (error, result) {
-        // Handle errors retrieving users from the database
-        if (error) {
-            error.reason = error.message
-            error.message = "Unable to retrieve users from the database"
-            next(error);
-        }
+/**
+ * Async Handler 
+ * Creates a new user within the database on request
+ */
+router.post('/createUser', jsonParser, asyncHandler(async (req, res, next) => {
+    const expectedArguments = [
+        { name: "email", type: BodyValidator.Types.String },
+        { name: "password", type: BodyValidator.Types.String },
+        { name: "forename", type: BodyValidator.Types.String },
+        { name: "surname", type: BodyValidator.Types.String },
+        { name: "gender", type: BodyValidator.Types.String },
+        { name: "dob", type: BodyValidator.Types.Date },
+    ]
 
-        res.status(200).json({
-            "count": result.length,
-            "result": result
+    // Check validity of request body
+    req.body = await BodyValidator.validateRequestBody(req.body, expectedArguments)
+    // Create new user in the database
+    var newUser = await usersModel.createUser(req.body)
+    // Send response to use
+    return res.status(200).send()
+}));
+
+
+/**
+ * Async Handler 
+ * Updates the deails of the requesting user within the database on request
+ */
+router.post('/updateUser', jsonParser, asyncHandler(async (req, res, next) => {
+    const expectedArguments = [
+        { name: "email", type: BodyValidator.Types.String },
+        { name: "password", type: BodyValidator.Types.String },
+        { name: "forename", type: BodyValidator.Types.String },
+        { name: "surname", type: BodyValidator.Types.String },
+        { name: "gender", type: BodyValidator.Types.String },
+        { name: "dob", type: BodyValidator.Types.Date },
+    ]
+
+    // Check validity of request body
+    req.body = await BodyValidator.validateRequestBody(req.body, expectedArguments)
+    // TODO: complete handler
+}));
+
+
+/**
+ * Async Handler 
+ * Updates the deails of the specified user within the database on request
+ */
+router.post('/updateUser/:userId', jsonParser, asyncHandler(async (req, res, next) => {
+    const expectedArguments = [
+        { name: "email", type: BodyValidator.Types.String },
+        { name: "password", type: BodyValidator.Types.String },
+        { name: "role", type: BodyValidator.Types.String }
+    ]
+
+    // Check permissions
+    // TODO: complete handler
+}));
+
+
+/*
+ * Async Handler
+ * Verifies the validity of an email and password combination 
+ * passed through the request body
+ */
+router.post('/verifyCredentials', jsonParser, asyncHandler(async (req, res, next) => {
+    const expectedArguments = [
+        { name: "email", type: BodyValidator.Types.String },
+        { name: "password", type: BodyValidator.Types.String },
+    ]
+
+    // Check validity of request body
+    req.body = await BodyValidator.validateRequestBody(req.body, expectedArguments)
+    // Check credentials
+    var result = await usersModel.verifyCredentials(req.body.email, req.body.password)
+
+    if (result.check) {
+        return res.status(200).json({
+            userId: result.user._id,
+            authToken: jwt.sign(result.user.toObject(), process.env.JWT_KEY, { expiresIn: "1h" })
         })
-    })
-});
-
-
-router.get('/:userID', authCheck, function (req, res, next) {
-    results = usersModel.getUsers(filter = { _id: req.params.userID }, function (error, result) {
-        // Handle errors retrieving users from the database
-        if (error) {
-            error.reason = error.message
-            error.message = "Unable to retrieve users from the database"
-            next(error);
-        }
-
-        var responseJson = { "count": result.length }
-        if (result.length > 0) {
-            responseJson.result = result
-        } else {
-            responseJson.message = "No user matching given ID"
-        }
-
-        res.status(200).json(responseJson);
-    })
-
-});
-
-
-router.post('/createUser', jsonParser, function (req, res, next) {
-    // Check that the incoming request has content in its body
-    if (!req.body) {
-        error = new Error()
-        error.code = 400
-        error.message = "Missing body in request"
+    } else {
+        throw new FailedAuthException()
     }
-    else {
-        usersModel.createUser(req.body).then(
-            // On Resolve
-            function (userDoc) {
-                return res.status(201).json({
-                    status: 201,
-                    message: "Successfully created new user."
-                })
-            },
-            // On Reject
-            function (error) {
-                error.code = 500
-                error.reason = error.message
-                error.message = "Unable to create new user."
-                next(error);
-            }
-        )
-    }
+}));
+
+
+/**
+ * Sync Handler
+ * Returns response with status 200 if the token provided in
+ * the authorization header passes the authenticity check.
+ */
+router.get('/verifyToken', authCheck, (req, res, next) => {
+    // If the request gets to this point it has passed authentication middlware, return status 200
+    return res.status(200).send()
 });
 
 
-router.post('/verifyCredentials', jsonParser, function (req, res, next) {
-    // Check the body of the incoming request is valid
-    if (!req.body || !req.body.hasOwnProperty("email") || !req.body.hasOwnProperty("password")) {
-        error = new Error()
-        error.status = 400
-        error.message = "Invalid request body, expected username and password"
-        next(error)
-        return
-    } 
-
-    usersModel.verifyCredentials(req.body.email, req.body.password).then(
-        // Resolve
-        (result) => {
-            if (result.check) {
-                // Get webtoken for authorised user
-                res.status(200).json({
-                    code: 200,
-                    message: "Authorised",
-                    authToken: jwt.sign(result.userDoc.toObject(), process.env.JWT_KEY, { expiresIn: "1h" })
-                })
-            }
-            else {
-                res.status(401).json({
-                    code: 401,
-                    message: "Unauthorised" 
-                })
-            }
-        },
-        // Reject
-        error => {
-            next(error)
+/**
+ * Async Handler
+ * Retrieves the user document with the provided ObjectId
+ */
+router.get('/getUser/:userId', authCheck, asyncHandler(async (req, res, next) => {
+    // Check permission if the userId of the requesting 
+    // account does not match the target userId
+    if (req.userData._id !== req.params.userId) {
+        const hasPermission = await permissionsModel.checkRolePermission(req.userData.role, "canViewUserAccount")
+        if (!hasPermission) {
+            throw new PermissionException()
         }
-    ).catch(error => {
-        next(error)
-    })
-});
+    }
+
+    // Retrieve requested user account information
+    const results = await usersModel.getUsers({ _id: req.params.userId })
+    if (!results) { throw new Error("Unable to find user with the provided id") }
+    // Send response to client
+    return res.status(200).json(results[0])
+}));
+
+
+/*
+ * Sync Handler
+ * Checks if the role of the requesting user has a specified permission
+ * 
+ * TODO : Check for potential deprecation of handler
+ */
+router.get('/checkPermission/:permission', authCheck, function (req, res, next) {
+    permissionsModel.checkRolePermission(req.userDoc.role)
+        .then(result => {
+            if (result.error) {
+                throw result.exception
+            } else {
+                return res.status(200).json({
+                    hasPermission: result.result
+                })
+            }
+        })
+        .catch(error => { return next(error) })
+})
 
 
 module.exports = router
