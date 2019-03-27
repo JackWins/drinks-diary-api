@@ -10,6 +10,10 @@ module.exports = (req, res, next) => {
         next()
     }
     catch (error) {
+        if (error.name !== "TokenExpiredError" || error.name !== "JsonWebTokenError" || error.name !== "NotBeforeError") {
+            // TODO: log system error
+            console.log(error)
+        }
         next(new FailedAuthException())
     }
 }

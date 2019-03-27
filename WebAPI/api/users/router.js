@@ -19,6 +19,19 @@ const FailedAuthException = require('../../exceptions/failed-auth-exception')
 
 
 /**
+ * Async Handler
+ * Retrieves the user document associated with the requesting account
+ */
+router.get('/getUser', authCheck, asyncHandler(async (req, res, next) => {
+    // Retrieve requested user account information
+    const results = await usersModel.getUsers({ _id: req.userData._id })
+    if (!results) { throw new Error("Unable to find user with the provided id") }
+    // Send response to client
+    return res.status(200).json(results[0])
+}));
+
+
+/**
  * Async Handler 
  * Creates a new user within the database on request
  */
@@ -63,6 +76,37 @@ router.post('/updateUser', jsonParser, asyncHandler(async (req, res, next) => {
 
 /**
  * Async Handler 
+ * Deletes the requesting users account
+ */
+router.post('/deleteUser', jsonParser, asyncHandler(async (req, res, next) => {
+
+}));
+
+
+/**
+ * Async Handler
+ * Retrieves the user document with the provided ObjectId
+ */
+router.get('/getUser/:userId', authCheck, asyncHandler(async (req, res, next) => {
+    // Check permission if the userId of the requesting 
+    // account does not match the target userId
+    if (req.userData._id !== req.params.userId) {
+        const hasPermission = await permissionsModel.checkRolePermission(req.userData.role, "canViewUserAccount")
+        if (!hasPermission) {
+            throw new PermissionException()
+        }
+    }
+
+    // Retrieve requested user account information
+    const results = await usersModel.getUsers({ _id: req.params.userId })
+    if (!results) { throw new Error("Unable to find user with the provided id") }
+    // Send response to client
+    return res.status(200).json(results[0])
+}));
+
+
+/**
+ * Async Handler 
  * Updates the deails of the specified user within the database on request
  */
 router.post('/updateUser/:userId', jsonParser, asyncHandler(async (req, res, next) => {
@@ -74,6 +118,15 @@ router.post('/updateUser/:userId', jsonParser, asyncHandler(async (req, res, nex
 
     // Check permissions
     // TODO: complete handler
+}));
+
+
+/**
+ * Async Handler 
+ * Deletes the targeted user account from the database
+ */
+router.post('/deleteUser/:userId', jsonParser, asyncHandler(async (req, res, next) => {
+
 }));
 
 
@@ -114,48 +167,6 @@ router.get('/verifyToken', authCheck, (req, res, next) => {
     return res.status(200).send()
 });
 
-
-/**
- * Async Handler
- * Retrieves the user document with the provided ObjectId
- */
-router.get('/getUser/:userId', authCheck, asyncHandler(async (req, res, next) => {
-    // Check permission if the userId of the requesting 
-    // account does not match the target userId
-    if (req.userData._id !== req.params.userId) {
-        const hasPermission = await permissionsModel.checkRolePermission(req.userData.role, "canViewUserAccount")
-        if (!hasPermission) {
-            throw new PermissionException()
-        }
-    }
-
-    // Retrieve requested user account information
-    const results = await usersModel.getUsers({ _id: req.params.userId })
-    if (!results) { throw new Error("Unable to find user with the provided id") }
-    // Send response to client
-    return res.status(200).json(results[0])
-}));
-
-
-/*
- * Sync Handler
- * Checks if the role of the requesting user has a specified permission
- * 
- * TODO : Check for potential deprecation of handler
- */
-router.get('/checkPermission/:permission', authCheck, function (req, res, next) {
-    permissionsModel.checkRolePermission(req.userDoc.role)
-        .then(result => {
-            if (result.error) {
-                throw result.exception
-            } else {
-                return res.status(200).json({
-                    hasPermission: result.result
-                })
-            }
-        })
-        .catch(error => { return next(error) })
-})
 
 
 module.exports = router

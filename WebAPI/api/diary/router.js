@@ -3,6 +3,7 @@
  * @author jack.pickett@uea.ac.uk (Jack Pickett)
  */
 
+// Express imports
 const router = require('express').Router();
 // Database model imports
 const diarysModel = require('./diaries-model');
@@ -50,16 +51,18 @@ router.get('/getDiaries/:userId', authCheck, asyncHandler((req, res, next) => {
  * Creates a new diary associated to the requesting account
  */
 router.post('/createDiary', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
+    console.log(req.body)
     const expectedArguments = [
         { name: "diaryName", type: BodyValidatior.Types.String },
-        { name: "duration", type: BodyValidatior.Types.Integer }
+        { name: "startDate", type: BodyValidatior.Types.Date },
+        { name: "endDate", type: BodyValidatior.Types.Date }
     ]
 
     // Validate the request body against the expected arguments
     req.body = await BodyValidatior.validateRequestBody(req.body, expectedArguments)
 
     // Create diary entry in database
-    var newDiary = await diarysModel.createDiary(req.userData._id, req.body.diaryName, req.body.duration)
+    var newDiary = await diarysModel.createDiary(req.userData._id, req.body.diaryName, req.body.startDate, req.body.endDate)
     return res.status(200).json(newDiary)
 }));
 
@@ -70,7 +73,6 @@ router.post('/createDiary', authCheck, jsonParser, asyncHandler(async (req, res,
  */
 router.post('/subscribeToDiary', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
 }));
-
 
 
 /**
@@ -106,7 +108,7 @@ router.get('/:diaryID', authCheck, asyncHandler(async (req, res, next) => {
  * Aysnc handler
  * Creates a new diary entry in the diary with the specified diary ID
  */
-router.post('/:diaryId/create', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
+router.post('/:diaryId/createEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
     const expectedArguments = [
         { name: "drinkType", type: BodyValidatior.Types.String },
         { name: "volume", type: BodyValidatior.Types.Number },
@@ -167,8 +169,18 @@ router.post('/:diaryId/updateEntry', authCheck, jsonParser, asyncHandler(async (
     }
 
     const updatedDoc = await diaryEntriesModel.updateEntry(req.userData._id, req.params.diaryId, req.body.entryId, updateArgs)
-    res.status(200).json(updatedDoc)
+    res.status(201).json(updatedDoc)
 }))
+
+
+/**
+ * Aysnc handler
+ * Removes a diary entry associated with the targeted diary ID
+ */
+router.post('/:diaryId/deleteEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
+    const deletedEntry = await diaryEntriesModel.removeEntry()
+    res.status(200).json()
+}));
 
 
 module.exports = router;

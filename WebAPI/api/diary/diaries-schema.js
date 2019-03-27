@@ -21,16 +21,25 @@ var diariesSchema = new mongoose.Schema(
         },
         startDate: {
             type: mongoose.Schema.Types.Date,
-            default: new Date(),
-            min: [new Date(), "Start date cannot occur before the current date."]
+            default: Date.now,
+            validate: {
+                validator: (value) => {
+                    const currentDate = new Date().setHours(0, 0, 0, 0)
+                    return (value >= new Date(currentDate))
+                },
+                message: "Start date cannot occur before the current date."
+            }
         },
         endDate: {
             type: mongoose.Schema.Types.Date,
-            required: false
-        },
-        totalEntries: {
-            type: mongoose.Schema.Types.Number,
-            default: 0
+            required: false,
+            validate: {
+                validator: (value) => {
+                    const currentDate = new Date().setHours(0, 0, 0, 0)
+                    return (value > new Date(currentDate))
+                },
+                message: "End date cannot occur before the current date."
+            }
         },
         lastEntry: {
             type: mongoose.Schema.Types.Date,

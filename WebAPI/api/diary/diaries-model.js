@@ -15,22 +15,21 @@ exports.model = DiarysModel
 
 /**
  * Create a new diary document in the 'diarys' collection.
- * @param {any} userID is the ObjectId of the user document associated with the new diary.
- * @param {any} diaryName is the identifying name for the new diary.
- * @param {any} duration is the duration for which the diary is expected to last.
+ * @param {String} userID is the ObjectId of the user document associated with the new diary.
+ * @param {String} diaryName is the identifying name for the new diary.
+ * @param {Date} startDate date diary commences recording
+ * @param {Date} endDate date diary finishes recording
  * @return {Promise} a promise which resolves to the stored diary document
  */
-exports.createDiary = (userID, diaryName, duration) => {
+exports.createDiary = (userID, diaryName, startDate, endDate) => {
     // Initialise new diary model
-    var newDiary = new DiarysModel({userID: userID, diaryName: diaryName,})
+    var newDiary = new DiarysModel({userID, diaryName, startDate, endDate})
 
-    // Set duration and endDate
-    var endDate = new Date()
-    newDiary.endDate = endDate.setDate(endDate.getDate() + duration)
-    newDiary.duration = duration
+    // Calculate duration
+    var difference = Math.abs(endDate.getTime() - startDate.getTime())
+    newDiary.duration = Math.ceil(difference / (1000 * 3600 * 24))
     
     return new Promise((resolve, reject) => {
-        var count = 0;
         newDiary.save()
             .then(diaryEntry => {
                 resolve(diaryEntry)

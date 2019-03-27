@@ -1,0 +1,51 @@
+{
+	"category" : "Carbonated Drink",
+	"caffeinated" : false,
+	"alcoholic" : false
+},
+{
+	"category" : "Carbonated Drink (caffeinated)",
+	"caffeinated" : true,
+	"alcoholic" : false
+},
+{
+	"category" : "Coffee",
+	"caffeinated" : true,
+	"alcoholic" : false
+},
+{
+	"category" : "Coffee (Decaf)",
+	"caffeinated" : true,
+	"alcoholic" : false
+},
+{
+	"category" : "Tea",
+	"caffeinated" : true,
+	"alcoholic" : false
+},
+{
+	"category" : "Water",
+	"caffeinated" : false,
+	"alcoholic" : false
+},
+{
+	"category" : "Beer / Cider",
+	"caffeinated" : false,
+	"alcoholic" : true
+},
+{
+	"category" : "Wine",
+	"caffeinated" : false,
+	"alcoholic" : true
+},
+{
+	"category" : "Spirits",
+	"caffeinated" : false,
+	"alcoholic" : true
+},
+{
+	"category" : "Cocktail",
+	"caffeinated" : false,
+	"alcoholic" : true
+}
+

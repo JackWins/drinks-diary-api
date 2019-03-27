@@ -49,13 +49,31 @@
     <Compile Include="api\diary\diary-entries-schema.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="api\error-handlers\auth-error-handler.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\error-handlers\missing-body-error-handler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\error-handlers\permission-error-handler.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="api\error-handlers\validation-error-handler.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="api\helpers\validate-request-body.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\middleware\async-handler.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\middleware\checkAuth.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\permissions\model.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\permissions\schema.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="api\users\schema.js">
@@ -75,6 +93,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="exceptions\missing-body-exception.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="exceptions\no-result-exception.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="exceptions\permission-exception.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="exceptions\validation-exception.js">
@@ -101,6 +125,8 @@
     <Folder Include="api\diary\" />
     <Folder Include="api\error-handlers\" />
     <Folder Include="api\middleware\" />
+    <Folder Include="api\helpers\" />
+    <Folder Include="api\permissions\" />
     <Folder Include="api\users\" />
     <Folder Include="exceptions\" />
   </ItemGroup>

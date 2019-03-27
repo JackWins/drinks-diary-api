@@ -1,0 +1,37 @@
+[
+	{
+		"key": "bottle",
+		"title" : "Bottle (500ml)",
+		"millilitres" : 500
+	},
+	{
+		"key": "can",
+		"title" : "Can (355ml)",
+		"millilitres" : 355
+	},
+	{
+		"key": "pint",
+		"title" : "Pint(s)",
+		"millilitres" : 568.261
+	},
+	{
+		"key": "cup",
+		"title" : "Cup(s)",
+		"millilitres" : 237
+	},
+	{
+		"key": "millilitre",
+		"title" : "Millilitres",
+		"millilitres" : 1
+	},
+	{
+		"key": "litre",
+		"title" : "Litre(s)",
+		"millilitres" : 1000
+	},
+	{
+		"key": "shot",
+		"title" : "Shot(s)",
+		"millilitres" : 25
+	}
+]

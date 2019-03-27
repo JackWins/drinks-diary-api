@@ -54,8 +54,10 @@ exports.getDiaryEntries = (filter = {}) => {
 
 /**
  * Update the given diary entry with the changes specified in the provided arguments
- * @param {string} entryID is the ObjectId of the entry to update
- * @param {JSON} args is the arguments to change for the specified entry
+ * @param {String} userID is the ObjectId of the user who owns the targeted diary
+ * @param {String} diaryId is the ObjectId of the target diary
+ * @param {String} entryID is the ObjectId of the targer entry ObjectId
+ * @param {JSON} args are the arguments to change for the specified entry
  * @returns {Promoise} is the promise result of the update query execution
  */
 exports.updateEntry = (userId, diaryId, entryID, args) => {
@@ -93,11 +95,23 @@ exports.updateEntry = (userId, diaryId, entryID, args) => {
 
 /**
  * Remove a diary entry document from the 'diary-entries' collection
- * @param {any} entryID is the ObjectId of the entry to remove from the collection
+ * @param {String} userID is the ObjectId of the user who owns the targeted diary
+ * @param {String} diaryId is the ObjectId of the target diary
+ * @param {String} entryID is the ObjectId of the targer entry ObjectId
  * @returns {Promise} is the promise result of the delete query exectution
  */
-exports.removeDiaryEntry = (entryID) => {
-    return DiaryEntryModel.findByIdAndDelete({ _id: entryID }, { rawResult: true })
-        .select('-__v')
-        .exec()
+exports.removeEntry = (userId, diaryId, entryID) => {
+    return new Promise((resolve, reject) => {
+        DiarysModel.getDiarys({ _id: diaryId, userID: userId })
+            .then(diarys => {
+                if (diarys.length > 0) {
+                    DiaryEntryModel.findByIdAndDelete({ _id: entryID, diaryID: diaryID }).exec()
+                        .then(entry => {
+                            resolve(entry)
+                        })
+                        .catch(error => reject(error))
+                }
+            })
+            .catch(error => reject(error))
+    })
 }

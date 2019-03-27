@@ -37,25 +37,28 @@ exports.validateRequestBody = async (body, expectedArguments) => {
                             throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Date or ISO formatted date string`)
                         }
                     }
+                    break;
 
                 case Types.Number:
                     // If string, attempt to conver to number
                     if (typeof body[argument.name] === "string") {
                         body[argument.name] = new Number(body[argument.name])
                         if (isNaN(body[argument.name])) {
-                            throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Date or ISO formatted date string`)
+                            throw new Error(`Invalid data type for argument: ${argument.name}, expected object Number or number string representation`)
                         }
 
                     } else {
                         if (!(body[argument.name] instanceof Number)) {
-                            throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Date or ISO formatted date string`)
+                            throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Number`)
                         }
                     }
+                    break;
 
                 case Types.Booelan:
                     if (typeof body[argument.name] === "boolean") {
-                        throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Date or ISO formatted date string`)
+                        throw new Error(`Invalid data type for argument: ${argument.name}, expected boolean type`)
                     }
+                    break;
             }
         })
 
