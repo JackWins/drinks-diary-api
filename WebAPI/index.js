@@ -43,7 +43,7 @@ app.use("*", (req, res, next) => {
 
 // Custom exception handlers
 const ValidationExceptionHandler = require('./api/error-handlers/validation-error-handler');
-const MissingBodyHandler = require('./api/error-handlers/missing-body-error-handler');
+const MissingBodyHandler = require('./api/error-handlers/body-validation-error-handler');
 const PermissionHandler = require('./api/error-handlers/permission-error-handler');
 const AuthFailedHandler = require('./api/error-handlers/auth-error-handler');
 app.use([ValidationExceptionHandler, MissingBodyHandler, AuthFailedHandler, PermissionHandler])

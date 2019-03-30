@@ -25,6 +25,7 @@ const PermissionsSchema = new mongoose.Schema(
     options = {_id: true}
 );
 
+/*
 const PermissionsModel = mongoose.model('Permissions', PermissionsSchema)
 const permissionsEntry = new PermissionsModel(require('./permissions.json'))
 permissionsEntry.save()
@@ -34,24 +35,11 @@ permissionsEntry.save()
     .catch(error => {
         console.log(error.message)
     })
-
+*/
 
 
 // Write volumes to database
-const volumesSchema = new mongoose.Schema(
-    definition = {
-        key: String,
-        title: String,
-        millimetres: Number
-    },
-    options = { _id: true }
-);
-const VolumesModel = mongoose.model("Volumes", volumesSchema)
-require('./volumes.json').forEach(entry => {
-    new VolumesModel(entry).save()
-        .catch(error => {
-            console.log(error)
-        })
-})
+const volModel = require('../api/volumes/volumes-model')
+volModel.generateVolumes()
 
 

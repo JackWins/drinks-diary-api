@@ -17,13 +17,13 @@ var DiaryEntryModel = dbm.getDbConnection().model('Diary-Entry', diaryEntrysSche
  * @param {JSON} args are the arguments required to create a new entry,
  *      the structure should be the following: 
  *      {
- *          drinkType: string,
- *          volume: JSON: {
- *              amount: number,
- *              measure: string,
- *          }
- *          alcoholic: boolean,
- *          caffeinated: boolean
+ *          drinkName: String,
+ *          brand: Strinng (optional),
+ *          volume: JSON: { amount: Number, measure: String },
+ *          containsAlcohol: Boolean,
+ *          alcoholPercentage: Number (optional),
+ *          containsCaffeine: Boolean,
+ *          caffeineContent: Number (optional),
  *      }
  * @returns {Promise} the result of the save operation containing the 
  *      new document or an error to catch.
@@ -41,18 +41,6 @@ exports.createEntry = async (userId, diaryId, args) => {
 
 
 /**
- * Retrieve diary entry documents from the collection
- * @param {JSON} filter contains key value pairs for filter the query results
- * @returns {Promise} the promise result of the query funciton
- */
-exports.getDiaryEntries = (filter = {}) => {
-    return DiaryEntryModel.find(filter)
-        .select('-__v')
-        .exec()
-}
-
-
-/**
  * Update the given diary entry with the changes specified in the provided arguments
  * @param {String} userID is the ObjectId of the user who owns the targeted diary
  * @param {String} diaryId is the ObjectId of the target diary
@@ -66,22 +54,13 @@ exports.updateEntry = (userId, diaryId, entryID, args) => {
         DiarysModel.getDiarys({ _id: diaryId, userID: userId })
             .then(results => {
                 if (results) {
-                    DiaryEntryModel.findById(entryID)
-                        .then(entry => {
-                            const keys = Object.keys(args)
-                            keys.forEach(key => {
-                                if (key === "volume") {
-                                    const volumeKeys = Object.keys(args[key])
-                                    volumeKeys.forEach(volKey => { entry[key][volKey] = args[key][volKey] })
-                                } else {
-                                    entry[key] = args[key]
-                                }
-                            })
-                            entry.save()
-                                .then(updatedDoc => { resolve(updatedDoc) })
-                                .catch(error => { reject(error) })
+                    DiaryEntryModel.findByIdAndUpdate(entryID, args)
+                        .then(doc => {
+                            // doc is the unupdated document, so retrieve document after update
+                            DiaryEntryModel.findOne({ _id: doc._id }).exec()
+                                .then(result => resolve(result))
                         })
-                        .catch(error => { reject(error) })
+                        .catch(error => reject(error))
                 }
                 else {
                     throw new NoResultException("No diaries matching the provided diary ID to create entry for")
@@ -89,7 +68,6 @@ exports.updateEntry = (userId, diaryId, entryID, args) => {
             })
             .catch(error => { reject(error) })
     })
-
 }
 
 
@@ -105,7 +83,7 @@ exports.removeEntry = (userId, diaryId, entryID) => {
         DiarysModel.getDiarys({ _id: diaryId, userID: userId })
             .then(diarys => {
                 if (diarys.length > 0) {
-                    DiaryEntryModel.findByIdAndDelete({ _id: entryID, diaryID: diaryID }).exec()
+                    DiaryEntryModel.findByIdAndDelete({ _id: entryID, diaryID: diaryId }).exec()
                         .then(entry => {
                             resolve(entry)
                         })
@@ -115,3 +93,19 @@ exports.removeEntry = (userId, diaryId, entryID) => {
             .catch(error => reject(error))
     })
 }
+
+
+/**
+ * Retrieve diary entry documents from the collection
+ * @param {JSON} filter contains key value pairs for filter the query results
+ * @returns {Promise} the promise result of the query funciton
+ */
+exports.getDiaryEntries = (filter = {}) => {
+    return DiaryEntryModel.find(filter)
+        .select('-__v')
+        .exec()
+}
+
+
+
+

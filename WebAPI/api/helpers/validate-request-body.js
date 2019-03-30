@@ -1,5 +1,5 @@
 ﻿
-const MissingBodyException = require('../../exceptions/missing-body-exception')
+const BodyValidationException = require('../../exceptions/body-validation-exception')
 
 const Types = Object.freeze({
     String: "string",
@@ -12,10 +12,17 @@ exports.Types = Types
 exports.validateRequestBody = async (body, expectedArguments) => {
     if (body) {
         await expectedArguments.forEach(argument => {
-            if (!body.hasOwnProperty(argument.name)) {
-                throw new MissingBodyException(argument.name)
+            // Set required status as true if undefined in expected argument
+            const required = (argument.required === undefined) ? true : argument.required
+
+            // Check if the argument is present
+            if (!body.hasOwnProperty(argument.name) && required) {
+                throw new BodyValidationException(argument.name, `Missing argument: ${argument.name} is a mandatory field.`)
+            } else if ( !body.hasOwnProperty(argument.name)  && !required) {
+                return
             }
 
+            // Perform generic validation on the argument dependent on type
             switch (argument.type) {
                 case Types.String:
                     if (typeof body[argument.name] !== argument.type) {
@@ -48,7 +55,7 @@ exports.validateRequestBody = async (body, expectedArguments) => {
                         }
 
                     } else {
-                        if (!(body[argument.name] instanceof Number)) {
+                        if (!(body[argument.name] instanceof Number) && typeof (body[argument.name]) !== "number" ) {
                             throw new Error(`Invalid data type for argument: ${argument.name}, expected object type Number`)
                         }
                     }

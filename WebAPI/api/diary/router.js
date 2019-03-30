@@ -9,6 +9,7 @@ const router = require('express').Router();
 const diarysModel = require('./diaries-model');
 const diaryEntriesModel = require('./diary-entries-model');
 const permissionsModel = require('../permissions/model');
+const volumesModel = require('../volumes/volumes-model');
 // Exception imports
 const NoResultException = require('../../exceptions/no-result-exception');
 const PermissionException = require('../../exceptions/permission-exception');
@@ -18,6 +19,16 @@ const authCheck = require('../middleware/checkAuth');
 const asyncHandler = require('../middleware/async-handler')
 // Utility imports 
 const BodyValidatior = require('../helpers/validate-request-body')
+
+
+/**
+ * async handler
+ * Returns the volume configurations stored in the database
+ */
+router.get('/getVolumes', authCheck, asyncHandler(async (req, res, next) => {
+    const results = await volumesModel.getVolumes()
+    res.status(200).json({ results: results })
+}))
 
 
 /**
@@ -51,7 +62,6 @@ router.get('/getDiaries/:userId', authCheck, asyncHandler((req, res, next) => {
  * Creates a new diary associated to the requesting account
  */
 router.post('/createDiary', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
-    console.log(req.body)
     const expectedArguments = [
         { name: "diaryName", type: BodyValidatior.Types.String },
         { name: "startDate", type: BodyValidatior.Types.Date },
@@ -110,11 +120,14 @@ router.get('/:diaryID', authCheck, asyncHandler(async (req, res, next) => {
  */
 router.post('/:diaryId/createEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
     const expectedArguments = [
-        { name: "drinkType", type: BodyValidatior.Types.String },
-        { name: "volume", type: BodyValidatior.Types.Number },
-        { name: "measurement", type: BodyValidatior.Types.String },
-        { name: "alcoholic", type: BodyValidatior.Types.Boolean },
-        { name: "caffeinated", type: BodyValidatior.Types.Boolean }
+        { name: "drinkName", type: BodyValidatior.Types.String},
+        { name: "brand", type: BodyValidatior.Types.String, required: false},
+        { name: "volume", type: BodyValidatior.Types.Number},
+        { name: "measure", type: BodyValidatior.Types.String},
+        { name: "alcohol", type: BodyValidatior.Types.Boolean},
+        { name: "alcoholPercentage", type: BodyValidatior.Types.Number, required: false },
+        { name: "caffeine", type: BodyValidatior.Types.Boolean},
+        { name: "caffeineContent", type: BodyValidatior.Types.Number, required: false }
     ]
 
     // Validate the body request against the expected arguments
@@ -126,13 +139,17 @@ router.post('/:diaryId/createEntry', authCheck, jsonParser, asyncHandler(async (
 
     // Create new diary entry
     const args = {
-        drinkType: req.body.drinkType,
-        alcoholic: req.body.alcoholic,
-        caffeinated: req.body.caffeinated,
-        volume: { amount: req.body.volume, measure: req.body.measurement }
+        drinkName: req.body.drinkName,
+        brand: req.body.brand,
+        containsAlcohol: req.body.alcohol,
+        alcoholPercentage: req.body.alcoholPercentage,
+        containsCaffeine: req.body.caffeine,
+        caffeineContent: req.body.caffeineContent,
+        volume: { amount: req.body.volume, measure: req.body.measure }
     }
     const newEntry = await diaryEntriesModel.createEntry(req.userData._id, req.params.diaryId, args)
     return res.status(201).json(newEntry)
+   
 }));
 
 
@@ -142,12 +159,14 @@ router.post('/:diaryId/createEntry', authCheck, jsonParser, asyncHandler(async (
  */
 router.post('/:diaryId/updateEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
     const expectedArguments = [
-        { name: "entryId", type: BodyValidatior.Types.String },
-        { name: "drinkType", type: BodyValidatior.Types.String },
+        { name: "drinkName", type: BodyValidatior.Types.String },
+        { name: "brand", type: BodyValidatior.Types.String, required: false },
         { name: "volume", type: BodyValidatior.Types.Number },
-        { name: "measurement", type: BodyValidatior.Types.String },
-        { name: "alcoholic", type: BodyValidatior.Types.Boolean },
-        { name: "caffeinated", type: BodyValidatior.Types.Boolean }
+        { name: "measure", type: BodyValidatior.Types.String },
+        { name: "alcohol", type: BodyValidatior.Types.Boolean },
+        { name: "alcoholPercentage", type: BodyValidatior.Types.Number, required: false },
+        { name: "caffeine", type: BodyValidatior.Types.Boolean },
+        { name: "caffeineContent", type: BodyValidatior.Types.Number, required: false }
     ]
 
     // Validate the body request against the expected arguments
@@ -158,17 +177,17 @@ router.post('/:diaryId/updateEntry', authCheck, jsonParser, asyncHandler(async (
     if (!hasPermission) { throw new PermissionException() }
 
     // Check requesting user is the owner of the diary
-    const updateArgs = {
-        drinkType: req.body.drinkType,
-        alcoholic: req.body.alcoholic,
-        caffeinated: req.body.caffeinated,
-        volume: {
-            amount: req.body.volume,
-            measure: req.body.measurement
-        }
+    const args = {
+        drinkName: req.body.drinkName,
+        brand: req.body.brand,
+        containsAlcohol: req.body.alcohol,
+        alcoholPercentage: req.body.alcoholPercentage,
+        containsCaffeine: req.body.caffeine,
+        caffeineContent: req.body.caffeineContent,
+        volume: { amount: req.body.volume, measure: req.body.measure }
     }
 
-    const updatedDoc = await diaryEntriesModel.updateEntry(req.userData._id, req.params.diaryId, req.body.entryId, updateArgs)
+    const updatedDoc = await diaryEntriesModel.updateEntry(req.userData._id, req.params.diaryId, req.body.entryId, args)
     res.status(201).json(updatedDoc)
 }))
 
@@ -178,9 +197,10 @@ router.post('/:diaryId/updateEntry', authCheck, jsonParser, asyncHandler(async (
  * Removes a diary entry associated with the targeted diary ID
  */
 router.post('/:diaryId/deleteEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
-    const deletedEntry = await diaryEntriesModel.removeEntry()
+    const deletedEntry = await diaryEntriesModel.removeEntry(req.userData._id, req.params.diaryId, req.body.entryId)
     res.status(200).json()
 }));
+
 
 
 module.exports = router;

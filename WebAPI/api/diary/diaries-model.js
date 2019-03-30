@@ -23,7 +23,7 @@ exports.model = DiarysModel
  */
 exports.createDiary = (userID, diaryName, startDate, endDate) => {
     // Initialise new diary model
-    var newDiary = new DiarysModel({userID, diaryName, startDate, endDate})
+    var newDiary = new DiarysModel({ userID, diaryName, startDate, endDate })
 
     // Calculate duration
     var difference = Math.abs(endDate.getTime() - startDate.getTime())

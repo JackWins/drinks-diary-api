@@ -1,0 +1,98 @@
+[
+	{
+		"group": "General",
+		"key": "millilitre",
+		"title" : "Millilitres",
+		"millilitres" : 1
+	},
+	{
+		"group": "General",
+		"key": "litre",
+		"title" : "Litre(s)",
+		"millilitres" : 1000
+	},
+	{
+		"group": "Hot Drinks",
+		"key": "teaCup",
+		"title": "Tea Cup (190ml)",
+		"millilitres": 190
+	},
+	{
+		"group": "Hot Drinks",
+		"key": "smallMug",
+		"title": "Small Mug (220ml)",
+		"millilitres": 220
+	},
+	{
+		"group": "Hot Drinks",
+		"key": "mediumMug",
+		"title": "Small Mug (260ml)",
+		"millilitres": 260
+	},
+	{
+		"group": "Hot Drinks",
+		"key": "largeMug",
+		"title": "Large Mug (350ml)",
+		"millilitres": 350
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "shot",
+		"title" : "Shot (25ml)",
+		"millilitres" : 25
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "smallGlass",
+		"title" : "Small Glass (160ml)",
+		"millilitres" : 160
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "0.5pint",
+		"title" : "Half-Pint (284ml)",
+		"millilitres" : 284
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "pint",
+		"title" : "Pint (568ml)",
+		"millilitres" : 568
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "alcopop",
+		"title" : "Alcopop Bottle (275ml)",
+		"millilitres" : 275
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "champagneFlute",
+		"title" : "Champagne Flute (125ml)",
+		"millilitres" : 125
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "smallWine",
+		"title" : "Small Wine Glass (125ml)",
+		"millilitres" : 125
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "mediumWine",
+		"title" : "Medium Wine Glass (175ml)",
+		"millilitres" : 175
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "largeWine",
+		"title" : "Large Wine Glass (250ml)",
+		"millilitres" : 568
+	},
+	{
+		"group": "Alcoholic Drinks",
+		"key": "wineBottle",
+		"title" : "Wine Bottle (750ml)",
+		"millilitres" : 568
+	}
+]

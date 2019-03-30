@@ -8,28 +8,42 @@ var diaryEntrySchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: [true, 'Diary ObjectId is a mandatory field']
         },
-        drinkType: {
+        drinkName: {
             type: String,
-            required: [true, 'Drink type is a mandatory field']
+            required: [true, 'Drink Name is a mandatory field']
+        },
+        brand: {
+            type: String,
+            required: false
         },
         volume: {
             amount: {
                 type: Number,
-                min: 0.01,
-                required: [true, 'An amount must be specified for a volume']
+                min: 1,
+                required: [true, 'Amount is a mandatory field for Volume']
             },
             measure: {
                 type: String,
-                required: [true, 'A measurement unit must be specified for a volume']
+                required: [true, 'Measurement is a mandatory field for Volume']
             }
         },
-        alcoholic: {
+        containsAlcohol: {
             type: Boolean,
-            default: false
+            required: [true, "Alcohol status is a mandatory field"]
         },
-        caffeinated: {
+        alcoholPercentage: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        containsCaffeine: {
             type: Boolean,
-            default: false
+            required: [true, "Caffeine status is a mandatory field"]
+        },
+        caffeineContent: {
+            type: Number,
+            required: false,
+            default: 0
         },
         date: {
             type: mongoose.Schema.Types.Date,
