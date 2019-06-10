@@ -1,57 +1,49 @@
 ﻿
-const appRoot = require('app-root-path');
 const winston = require('winston');
-
+const fs = require('fs')
 
 class WinstonLogger {
 
-    constructor(component='global') {
-        var config = {
-            file: {
-                level: 'info',
-                filename: `${appRoot}/logs/${component}/${component}.log`,
-                handleExceptions: true,
-                json: true,
-                maxsize: 5242880, // 5MB
-                maxFiles: 5,
-                colorize: false,
-            },
-            console: {
-                level: 'debug',
-                handleExceptions: true,
-                json: false,
-                colorize: true,
-            }
-        };
+    constructor() {
+        // Check if log directory exists, 
+        // create directory if it doesn't exist.
+        this.logDir = `${__dirname}/logs`
+        if (!fs.existsSync(this.logDir)) { fs.mkdirSync(this.logDir) }
 
-        // Create a logger instance
-        var logger = winston.createLogger({
+        this.logger = winston.createLogger({
             transports: [
-                new winston.transports.File(config.file),
-                new winston.transports.Console(config.console)
-            ],
-            exitOnError: false
-        });
+                new winston.transports.Console({
+                    timestamp: true,
+                    level: 'info'
+                }),
+                new winston.transports.File({
+                    filename: `${this.logDir}/combined.log`,
+                    timestamp: true,
+                    level: 'info'
+                }),
+                new winston.transports.File({
+                    filename: `${this.logDir}/error.log`,
+                    timestamp: true,
+                    level: 'error'
+                })
+            ]
+        })
 
-        // Create a stream object with a 'write' function that will be used by `morgan`
-        logger.stream = {
+        this.logger.stream = {
             write: function (message, encoding) {
-                logger.log('info', message);
-            },
-        };
-
-        // Bind logger instance to the class instance
-        this.logger = logger;
-    };
+                logger.info(message)
+            }
+        }
+    }
+    
 
     info(logMessage) {
         this.logger.log('info', logMessage);
     };
 
     error(logMessage) {
-        this.logger.log('info', logMessage);
+        this.logger.log('error', logMessage);
     };
-
 };
 
-module.exports = WinstonLogger
+module.exports = new WinstonLogger()

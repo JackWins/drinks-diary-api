@@ -50,7 +50,7 @@ router.post('/createUser', jsonParser, asyncHandler(async (req, res, next) => {
     // Create new user in the database
     var newUser = await usersModel.createUser(req.body)
     // Send response to use
-    return res.status(200).send()
+    return res.status(200).json({})
 }));
 
 
@@ -147,7 +147,9 @@ router.post('/verifyCredentials', jsonParser, asyncHandler(async (req, res, next
     var result = await usersModel.verifyCredentials(req.body.email, req.body.password)
 
     if (result.check) {
+        console.log(result.user)
         return res.status(200).json({
+            role: result.user.role,
             userId: result.user._id,
             authToken: jwt.sign(result.user.toObject(), process.env.JWT_KEY, { expiresIn: "1h" })
         })

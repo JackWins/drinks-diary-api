@@ -52,7 +52,7 @@
     <Compile Include="api\error-handlers\auth-error-handler.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="api\error-handlers\missing-body-error-handler.js">
+    <Compile Include="api\error-handlers\body-validation-error-handler.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="api\error-handlers\permission-error-handler.js">
@@ -85,14 +85,20 @@
     <Compile Include="api\users\router.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="api\volumes\volumes-model.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\volumes\volumes-schema.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="config.js" />
     <Compile Include="database-manager.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="exceptions\failed-auth-exception.js">
+    <Compile Include="exceptions\body-validation-exception.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="exceptions\missing-body-exception.js">
+    <Compile Include="exceptions\failed-auth-exception.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="exceptions\no-result-exception.js">
@@ -102,6 +108,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="exceptions\validation-exception.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="database\gen_database.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="index.js">
@@ -117,8 +126,13 @@
     <Content Include=".env.default">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="database\drink_categories.json" />
+    <Content Include="database\permissions.json" />
+    <Content Include="api\volumes\volumes.json" />
     <Content Include="package.json" />
+    <Content Include="permissions.json" />
     <Content Include="README.md" />
+    <Content Include="volumes.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="api\" />
@@ -126,9 +140,11 @@
     <Folder Include="api\error-handlers\" />
     <Folder Include="api\middleware\" />
     <Folder Include="api\helpers\" />
+    <Folder Include="api\volumes\" />
     <Folder Include="api\permissions\" />
     <Folder Include="api\users\" />
     <Folder Include="exceptions\" />
+    <Folder Include="database\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

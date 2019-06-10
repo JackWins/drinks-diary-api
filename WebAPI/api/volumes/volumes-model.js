@@ -11,13 +11,13 @@ const VolumesModel = dbm.getDbConnection().model('Volumes', VolumesSchema);
  * in the same directory into the database.
  * */
 exports.generateVolumes = () => {
+    mongoose.connect(`mongodb://localhost:27017/DrinksDiary`, { useNewUrlParser: true } )
+    const VolumesModel = mongoose.model('Volumes', VolumesSchema);
+
     require("./volumes.json").forEach(volumeEntry => {
-        console.log(volumeEntry)
         VolumesModel.findOneAndUpdate({ key: volumeEntry.key }, volumeEntry, {upsert: true})
             .then(response => {})
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(error => { console.log(error) })
     })
 }
 

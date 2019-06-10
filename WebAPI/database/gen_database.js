@@ -1,7 +1,14 @@
 ﻿const mongoose = require("mongoose")
 
+// Atlas
+//mongoose.connect(
+//    `mongodb+srv://Jack:daHl6iA1tdujysdY@drinksdiarycluster-t6hop.mongodb.net/DrinksDiary?retryWrites=true`,
+//    { useNewUrlParser: true }
+//)
+
+// LocalHost
 mongoose.connect(
-    `mongodb+srv://Jack:daHl6iA1tdujysdY@drinksdiarycluster-t6hop.mongodb.net/DrinksDiary?retryWrites=true`,
+    `mongodb://localhost:27017/DrinksDiaryTest`,
     { useNewUrlParser: true }
 )
 
@@ -25,7 +32,7 @@ const PermissionsSchema = new mongoose.Schema(
     options = {_id: true}
 );
 
-/*
+
 const PermissionsModel = mongoose.model('Permissions', PermissionsSchema)
 const permissionsEntry = new PermissionsModel(require('./permissions.json'))
 permissionsEntry.save()
@@ -35,7 +42,7 @@ permissionsEntry.save()
     .catch(error => {
         console.log(error.message)
     })
-*/
+
 
 
 // Write volumes to database
