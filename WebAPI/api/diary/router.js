@@ -198,7 +198,7 @@ router.post('/:diaryId/updateEntry', authCheck, jsonParser, asyncHandler(async (
  */
 router.post('/:diaryId/deleteEntry', authCheck, jsonParser, asyncHandler(async (req, res, next) => {
     const deletedEntry = await diaryEntriesModel.removeEntry(req.userData._id, req.params.diaryId, req.body.entryId)
-    res.status(200).json()
+    res.status(200).json({})
 }));
 
 

@@ -11,8 +11,8 @@ const VolumesModel = dbm.getDbConnection().model('Volumes', VolumesSchema);
  * in the same directory into the database.
  * */
 exports.generateVolumes = () => {
-    mongoose.connect(`mongodb://localhost:27017/DrinksDiary`, { useNewUrlParser: true } )
-    const VolumesModel = mongoose.model('Volumes', VolumesSchema);
+
+    const VolumesModel = require('../../database-manager').getDbConnection().model('Volumes', VolumesSchema);
 
     require("./volumes.json").forEach(volumeEntry => {
         VolumesModel.findOneAndUpdate({ key: volumeEntry.key }, volumeEntry, {upsert: true})

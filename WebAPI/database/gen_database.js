@@ -1,16 +1,7 @@
-﻿const mongoose = require("mongoose")
-
-// Atlas
-//mongoose.connect(
-//    `mongodb+srv://Jack:daHl6iA1tdujysdY@drinksdiarycluster-t6hop.mongodb.net/DrinksDiary?retryWrites=true`,
-//    { useNewUrlParser: true }
-//)
-
-// LocalHost
-mongoose.connect(
-    `mongodb://localhost:27017/DrinksDiaryTest`,
-    { useNewUrlParser: true }
-)
+﻿
+const mongoose = require("mongoose")
+const dbManager = require("../database-manager")
+const connection = dbManager.getDbConnection()
 
 
 // Write permissions to database
@@ -33,7 +24,7 @@ const PermissionsSchema = new mongoose.Schema(
 );
 
 
-const PermissionsModel = mongoose.model('Permissions', PermissionsSchema)
+const PermissionsModel = connection.model('Permissions', PermissionsSchema)
 const permissionsEntry = new PermissionsModel(require('./permissions.json'))
 permissionsEntry.save()
     .then(document => {
@@ -42,7 +33,6 @@ permissionsEntry.save()
     .catch(error => {
         console.log(error.message)
     })
-
 
 
 // Write volumes to database
